@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { API_BASE_URL } from "@/lib/api-client";
 
-// Plain proxy — register doesn't issue tokens on the backend, so there's no
-// cookie to set here. The client redirects to /auth/login on success.
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
 

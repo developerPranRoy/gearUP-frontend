@@ -20,6 +20,7 @@ type ApiFetchOptions = Omit<RequestInit, "body"> & {
   token?: string | null;
 };
 
+
 export async function apiFetch<T>(
   path: string,
   { body, token, headers, ...init }: ApiFetchOptions = {}
@@ -33,6 +34,60 @@ export async function apiFetch<T>(
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
     cache: init.cache ?? "no-store",
+  });
+
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new ApiError(
+      res.status,
+      json ?? { success: false, message: "Request failed", errorDetails: [] }
+    );
+  }
+
+  return (json as ApiSuccessShape<T>).data;
+}
+
+
+export async function apiFetchPaginated<T>(
+  path: string,
+  options: ApiFetchOptions = {}
+): Promise<{ data: T; meta?: ApiSuccessShape<T>["meta"] }> {
+  const { body, token, headers, ...init } = options;
+
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers,
+    },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+    cache: init.cache ?? "no-store",
+  });
+
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new ApiError(
+      res.status,
+      json ?? { success: false, message: "Request failed", errorDetails: [] }
+    );
+  }
+
+  const success = json as ApiSuccessShape<T>;
+  return { data: success.data, meta: success.meta };
+}
+
+
+export async function authedFetch<T = unknown>(
+  path: string,
+  { body, headers, ...init }: Omit<ApiFetchOptions, "token"> = {}
+): Promise<T> {
+  const res = await fetch(`/api/proxy${path}`, {
+    ...init,
+    headers: { "Content-Type": "application/json", ...headers },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   const json = await res.json().catch(() => null);

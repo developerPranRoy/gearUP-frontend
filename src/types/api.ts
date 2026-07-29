@@ -39,3 +39,67 @@ export type ApiSuccessShape<T> = {
   meta?: { page: number; limit: number; total: number };
   data: T;
 };
+
+export type Category = {
+  id: string;
+  name: string;
+  description: string | null;
+};
+
+export type GearStatus = "AVAILABLE" | "UNAVAILABLE";
+
+export type Review = {
+  id: string;
+  rating: number;
+  comment: string | null;
+  customerId: string;
+  gearItemId: string;
+  createdAt: string;
+};
+
+export type GearItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  brand: string | null;
+  pricePerDay: number;
+  totalStock: number;
+  availableStock: number;
+  images: string[];
+  status: GearStatus;
+  categoryId: string;
+  category: Category;
+  providerId: string;
+  provider: { id: string; name: string };
+  reviews?: Review[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type RentalStatus =
+  | "PLACED"
+  | "CONFIRMED"
+  | "CANCELLED"
+  | "PAID"
+  | "PICKED_UP"
+  | "RETURNED";
+
+export type RentalOrderItem = {
+  id: string;
+  gearItemId: string;
+  quantity: number;
+  pricePerDay: number;
+  gearItem?: GearItem;
+};
+
+export type RentalOrder = {
+  id: string;
+  customerId: string;
+  startDate: string;
+  endDate: string;
+  totalAmount: number;
+  status: RentalStatus;
+  items: RentalOrderItem[];
+  createdAt: string;
+  updatedAt: string;
+};

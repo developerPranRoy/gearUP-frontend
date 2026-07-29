@@ -32,6 +32,7 @@ export const STATUS_META: Record<AnyStatus, StatusMeta> = {
   SUSPENDED: { label: "Suspended", color: "var(--status-cancelled)" },
 };
 
+
 export const NEXT_PROVIDER_ACTION: Partial<Record<RentalStatus, { action: string; next: RentalStatus }>> = {
   PLACED: { action: "Confirm", next: "CONFIRMED" },
   PAID: { action: "Mark Picked Up", next: "PICKED_UP" },

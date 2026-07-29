@@ -14,7 +14,8 @@ export default async function DashboardLayout({
 }) {
   const session = await getCurrentUser();
 
-
+  // Belt-and-suspenders: middleware already enforces this, but a Server
+  // Component shouldn't assume a request bypassed it never happens.
   if (!session) {
     redirect("/auth/login");
   }

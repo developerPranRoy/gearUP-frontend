@@ -31,6 +31,7 @@ export function proxy(request: NextRequest) {
   const isAuthPage = pathname === "/auth/login" || pathname === "/auth/register";
   const isDashboardPage = pathname.startsWith("/dashboard");
 
+  // Already logged in, don't show them the login/register form again.
   if (isAuthPage && session) {
     return NextResponse.redirect(
       new URL(dashboardPathForRole(session.role), request.url)
@@ -44,7 +45,7 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    const segment = pathname.split("/")[2];
+    const segment = pathname.split("/")[2]; // "customer" | "provider" | "admin"
     const requiredRole = ROLE_FOR_SEGMENT[segment];
 
     if (requiredRole && session.role !== requiredRole) {
