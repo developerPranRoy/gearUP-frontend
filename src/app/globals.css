@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Core palette — outdoor/gear identity: deep pine, trail green, blaze amber */
+  --pine: #16302a;
+  --pine-soft: #204339;
+  --trail: #2d5a45;
+  --trail-light: #3f7a5c;
+  --blaze: #f2a93b;
+  --blaze-dark: #d98f1f;
+  --stone: #f0f2ed;
+  --canvas: #ffffff;
+  --slate: #5b655f;
+  --slate-soft: #8a938c;
+  --line: #dcdfd7;
+
+  /* Status colors — mirrors backend RentalStatus enum */
+  --status-placed: #f2a93b;
+  --status-confirmed: #3b82c4;
+  --status-paid: #7c5cbf;
+  --status-picked-up: #2d5a45;
+  --status-returned: #8a8f87;
+  --status-cancelled: #c0432f;
+
+  --background: var(--stone);
+  --foreground: var(--pine);
+  --card: var(--canvas);
+  --card-foreground: var(--pine);
+  --primary: var(--trail);
+  --primary-foreground: #ffffff;
+  --secondary: var(--stone);
+  --secondary-foreground: var(--pine);
+  --accent: var(--blaze);
+  --accent-foreground: var(--pine);
+  --muted: var(--stone);
+  --muted-foreground: var(--slate);
+  --destructive: var(--status-cancelled);
+  --destructive-foreground: #ffffff;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--trail);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-pine: var(--pine);
+  --color-trail: var(--trail);
+  --color-trail-light: var(--trail-light);
+  --color-blaze: var(--blaze);
+  --color-blaze-dark: var(--blaze-dark);
+  --color-stone: var(--stone);
+  --color-slate: var(--slate);
+
+  --color-status-placed: var(--status-placed);
+  --color-status-confirmed: var(--status-confirmed);
+  --color-status-paid: var(--status-paid);
+  --color-status-picked-up: var(--status-picked-up);
+  --color-status-returned: var(--status-returned);
+  --color-status-cancelled: var(--status-cancelled);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Visible keyboard focus everywhere — accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--trail);
+  outline-offset: 2px;
+}
