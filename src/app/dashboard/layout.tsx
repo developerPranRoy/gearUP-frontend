@@ -6,6 +6,7 @@ import { apiFetch } from "@/lib/api-client";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { LogoutButton } from "@/components/dashboard/logout-button";
 import type { User } from "@/types/api";
+import { Navbar } from "@/components/layout/navbar";
 
 export default async function DashboardLayout({
   children,
@@ -14,8 +15,7 @@ export default async function DashboardLayout({
 }) {
   const session = await getCurrentUser();
 
-  // Belt-and-suspenders: middleware already enforces this, but a Server
-  // Component shouldn't assume a request bypassed it never happens.
+
   if (!session) {
     redirect("/auth/login");
   }
@@ -26,6 +26,8 @@ export default async function DashboardLayout({
     : null;
 
   return (
+    <>
+      <Navbar></Navbar>
     <div className="flex min-h-screen bg-stone">
       <aside className="flex w-60 flex-col justify-between border-r border-border bg-canvas p-4">
         <div>
@@ -38,5 +40,6 @@ export default async function DashboardLayout({
       </aside>
       <main className="flex-1 p-8">{children}</main>
     </div>
+    </>
   );
 }

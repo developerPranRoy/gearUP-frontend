@@ -1,13 +1,9 @@
-import Link from "next/link";
+import { Navbar } from "@/components/layout/navbar";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-stone">
-      <header className="px-6 py-5">
-        <Link href="/" className="font-display text-lg font-semibold text-pine">
-          GearUp
-        </Link>
-      </header>
+      <Navbar />
       <main className="flex flex-1 items-center justify-center px-4 pb-16">
         {children}
       </main>

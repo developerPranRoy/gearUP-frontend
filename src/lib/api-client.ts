@@ -20,7 +20,12 @@ type ApiFetchOptions = Omit<RequestInit, "body"> & {
   token?: string | null;
 };
 
-
+/**
+ * Thin fetch wrapper around the GearUp Express API. Server Components / Route
+ * Handlers pass `token` explicitly (read from the httpOnly cookie via
+ * lib/auth.ts); Client Components pass it from wherever they hold the
+ * in-memory session (see hooks/use-session.ts).
+ */
 export async function apiFetch<T>(
   path: string,
   { body, token, headers, ...init }: ApiFetchOptions = {}
@@ -48,7 +53,10 @@ export async function apiFetch<T>(
   return (json as ApiSuccessShape<T>).data;
 }
 
-
+/**
+ * Same shape as apiFetch, but also returns `meta` (page/limit/total) for
+ * paginated list endpoints like GET /gear.
+ */
 export async function apiFetchPaginated<T>(
   path: string,
   options: ApiFetchOptions = {}
@@ -79,7 +87,11 @@ export async function apiFetchPaginated<T>(
   return { data: success.data, meta: success.meta };
 }
 
-
+/**
+ * Client Components can't read the httpOnly cookie, so authenticated calls
+ * go through /api/proxy/* (see app/api/proxy/[...path]/route.ts) instead of
+ * hitting the Express API directly. Same-origin, cookie sent automatically.
+ */
 export async function authedFetch<T = unknown>(
   path: string,
   { body, headers, ...init }: Omit<ApiFetchOptions, "token"> = {}
@@ -102,7 +114,11 @@ export async function authedFetch<T = unknown>(
   return (json as ApiSuccessShape<T>).data;
 }
 
-
+/**
+ * Same error handling as apiFetch, but for calling our OWN Next.js route
+ * handlers (the BFF proxy routes under /app/api) instead of the Express
+ * backend directly. Relative URL, same-origin cookies included automatically.
+ */
 export async function bffFetch<T = unknown>(
   path: string,
   { body, headers, ...init }: Omit<ApiFetchOptions, "token"> = {}

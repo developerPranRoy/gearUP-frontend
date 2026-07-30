@@ -33,9 +33,7 @@ export function proxy(request: NextRequest) {
 
   // Already logged in, don't show them the login/register form again.
   if (isAuthPage && session) {
-    return NextResponse.redirect(
-      new URL(dashboardPathForRole(session.role), request.url)
-    );
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (isDashboardPage) {

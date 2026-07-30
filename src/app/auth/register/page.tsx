@@ -1,7 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ShoppingBag, Store, Loader2 } from "lucide-react";
@@ -44,12 +45,18 @@ const ROLE_OPTIONS = [
   },
 ];
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const preselectedRole = searchParams.get("role");
+  const defaultRole =
+    preselectedRole === "PROVIDER" || preselectedRole === "CUSTOMER"
+      ? preselectedRole
+      : undefined;
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: "", email: "", password: "", phone: "" },
+    defaultValues: { name: "", email: "", password: "", phone: "", role: defaultRole },
   });
 
   const isSubmitting = form.formState.isSubmitting;
@@ -186,5 +193,13 @@ export default function RegisterPage() {
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
   );
 }

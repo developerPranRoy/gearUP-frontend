@@ -95,6 +95,7 @@ export type RentalOrderItem = {
 export type RentalOrder = {
   id: string;
   customerId: string;
+  customer?: { id: string; name: string; email: string };
   startDate: string;
   endDate: string;
   totalAmount: number;
@@ -102,4 +103,20 @@ export type RentalOrder = {
   items: RentalOrderItem[];
   createdAt: string;
   updatedAt: string;
+};
+
+export type PaymentMethod = "STRIPE" | "SSLCOMMERZ";
+export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED";
+
+export type Payment = {
+  id: string;
+  transactionId: string;
+  rentalOrderId: string;
+  amount: number;
+  method: PaymentMethod;
+  status: PaymentStatus;
+  paidAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  rentalOrder?: RentalOrder;
 };

@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/form";
 import { bffFetch } from "@/lib/api-client";
 import { handleFormError } from "@/lib/handle-form-error";
-import { dashboardPathForRole } from "@/lib/roles";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 import type { SessionUser } from "@/types/api";
 
@@ -45,12 +44,12 @@ function LoginForm() {
 
   async function onSubmit(values: LoginInput) {
     try {
-      const result = await bffFetch<{ user: SessionUser }>("/api/auth/login", {
+      await bffFetch<{ user: SessionUser }>("/api/auth/login", {
         method: "POST",
         body: values,
       });
       toast.success("Welcome back!");
-      router.push(redirectTo || dashboardPathForRole(result.user.role));
+      router.push(redirectTo || "/");
       router.refresh();
     } catch (error) {
       handleFormError(error, form.setError);

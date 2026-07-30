@@ -79,10 +79,44 @@ src/
 - [x] Auth (register/login, BFF cookies, role-based route protection)
 - [x] Public gear browsing (Server Components) — search, filters, pagination,
       gear details, reviews, and the "Rent Now" order-placement flow
-- [ ] Customer dashboard (order history, payments, reviews) + Stripe Elements payment
-- [ ] Provider dashboard
+- [x] Customer dashboard (order history, payment history, cancel PLACED
+      orders, review RETURNED gear) + Stripe Elements payment flow
+- [x] Provider dashboard — stats, inventory table (edit/delete/toggle
+      availability), add/edit gear forms, incoming orders with status actions
 - [ ] Admin dashboard
 - [ ] Polish (loading/error states everywhere, `API_INTEGRATION.md`)
+
+## Backend dependency added this phase
+
+`GET /provider/gear` didn't exist on the backend (only public browse-all and
+single-item lookup did — no "my own gear" endpoint). Added it:
+`provider.service.ts` → `getProviderGearDb(providerId)`, wired through
+`provider.controller.ts` and `provider.route.ts`. Without it there's no way
+for a provider to see their own inventory to edit/delete/toggle it.
+
+## Stripe Elements integration
+
+Uses `PaymentElement` (embedded), not Stripe Checkout redirect — matches the
+backend's `PaymentIntent` + `clientSecret` design:
+
+```
+Pay Now (order CONFIRMED) → POST /payments/create → clientSecret
+  → <Elements clientSecret> <PaymentElement /> </Elements>
+  → stripe.confirmPayment({ return_url: /payment/success?orderId=... })
+  → Stripe redirects back (or resolves inline) → success/cancel page
+    checks status via stripe.retrievePaymentIntent()
+```
+
+**Important for testing/demo:** the backend's `Payment.status` only flips to
+`COMPLETED` when Stripe's *webhook* fires (`POST /payments/webhook` on the
+Express API) — the frontend's success page checks payment status directly
+with Stripe, which is separate from your own database record. Run the Stripe
+CLI alongside your backend while testing/recording the demo:
+```bash
+stripe listen --forward-to <your-backend-url>/api/payments/webhook
+```
+Otherwise the dashboard's payment history will keep showing `PENDING` even
+after a card is charged successfully.
 
 ## Known limitation: date-range double-booking
 

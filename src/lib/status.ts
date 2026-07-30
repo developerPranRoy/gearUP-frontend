@@ -1,4 +1,6 @@
-
+// Central status → label/color maps. Mirrors the backend's Prisma enums exactly
+// (RentalStatus, PaymentStatus, GearStatus, UserStatus) so the UI never drifts
+// from what the API actually returns.
 
 export type RentalStatus =
   | "PLACED"
@@ -32,7 +34,8 @@ export const STATUS_META: Record<AnyStatus, StatusMeta> = {
   SUSPENDED: { label: "Suspended", color: "var(--status-cancelled)" },
 };
 
-
+// Next allowed action per current rental status — drives which button a
+// provider/customer sees on an order row.
 export const NEXT_PROVIDER_ACTION: Partial<Record<RentalStatus, { action: string; next: RentalStatus }>> = {
   PLACED: { action: "Confirm", next: "CONFIRMED" },
   PAID: { action: "Mark Picked Up", next: "PICKED_UP" },
