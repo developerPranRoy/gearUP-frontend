@@ -36,8 +36,6 @@ export function CheckoutForm({
       },
     });
 
-    // Stripe only returns here if confirmation failed immediately (e.g. a
-    // declined card). On success it redirects to return_url itself.
     if (error) {
       setErrorMessage(error.message ?? "Payment failed. Try a different card.");
       setSubmitting(false);

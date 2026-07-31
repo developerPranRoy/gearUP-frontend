@@ -3,27 +3,9 @@ import { Bike, Tent, Waves, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FEATURED_TAGS = [
-  {
-    icon: Bike,
-    label: "Trail Bike",
-    price: "৳500/day",
-    rotate: "-rotate-6",
-    offset: "",
-  },
-  {
-    icon: Tent,
-    label: "4P Tent",
-    price: "৳300/day",
-    rotate: "rotate-3",
-    offset: "mt-10",
-  },
-  {
-    icon: Waves,
-    label: "Kayak",
-    price: "৳650/day",
-    rotate: "-rotate-2",
-    offset: "mt-4",
-  },
+  { icon: Bike, label: "Trail Bike", price: "৳500/day", rotate: "-rotate-6", offset: "" },
+  { icon: Tent, label: "4P Tent", price: "৳300/day", rotate: "rotate-3", offset: "mt-10" },
+  { icon: Waves, label: "Kayak", price: "৳650/day", rotate: "-rotate-2", offset: "mt-4" },
 ];
 
 export default function HomePage() {
@@ -49,7 +31,7 @@ export default function HomePage() {
                 Browse gear <ArrowRight />
               </Link>
             </Button>
-           
+          
           </div>
         </div>
 
@@ -70,9 +52,7 @@ export default function HomePage() {
                 <Icon className="size-6 text-trail" />
                 <div>
                   <p className="text-sm font-medium text-pine">{tag.label}</p>
-                  <p className="font-mono text-xs text-slate-soft">
-                    {tag.price}
-                  </p>
+                  <p className="font-mono text-xs text-slate-soft">{tag.price}</p>
                 </div>
               </div>
             );
