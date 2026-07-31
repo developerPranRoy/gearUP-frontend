@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Package } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
-import { StatusBadge } from "@/components/ui/status-badge";
 import type { GearItem } from "@/types/api";
 
 export function GearCard({ gear }: { gear: GearItem }) {
@@ -26,9 +25,6 @@ export function GearCard({ gear }: { gear: GearItem }) {
               <Package className="size-10 text-slate-soft" />
             </div>
           )}
-          <div className="absolute right-2 top-2">
-            <StatusBadge status={gear.status} />
-          </div>
         </div>
         <div className="space-y-2 p-4">
           <p className="font-mono text-[11px] uppercase tracking-wide text-trail">

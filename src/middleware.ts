@@ -24,14 +24,13 @@ function readSession(request: NextRequest): SessionUser | null {
   }
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = readSession(request);
 
   const isAuthPage = pathname === "/auth/login" || pathname === "/auth/register";
   const isDashboardPage = pathname.startsWith("/dashboard");
 
-  // Already logged in, don't show them the login/register form again.
   if (isAuthPage && session) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -43,7 +42,7 @@ export function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    const segment = pathname.split("/")[2]; // "customer" | "provider" | "admin"
+    const segment = pathname.split("/")[2]; 
     const requiredRole = ROLE_FOR_SEGMENT[segment];
 
     if (requiredRole && session.role !== requiredRole) {

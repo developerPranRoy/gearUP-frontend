@@ -7,13 +7,15 @@ export type SessionUser = {
   exp: number;
 };
 
+export type UserStatus = "ACTIVE" | "SUSPENDED";
+
 export type User = {
   id: string;
   name: string;
   email: string;
   phone: string | null;
   role: Role;
-  status: "ACTIVE" | "SUSPENDED";
+  status: UserStatus;
   createdAt: string;
 };
 

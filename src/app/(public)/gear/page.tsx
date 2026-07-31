@@ -28,6 +28,9 @@ export default async function BrowseGearPage({
     brand: rawParams.brand as string | undefined,
     minPrice: rawParams.minPrice as string | undefined,
     maxPrice: rawParams.maxPrice as string | undefined,
+    // Always AVAILABLE — public browse shouldn't surface gear a provider
+    // has manually toggled off. Not a user-controllable filter.
+    status: "AVAILABLE",
     sortBy: (rawParams.sortBy as string | undefined) ?? "createdAt",
     sortOrder: (rawParams.sortOrder as string | undefined) ?? "desc",
     page: (rawParams.page as string | undefined) ?? "1",

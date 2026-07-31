@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   LayoutDashboard,
   PlusCircle,
@@ -9,6 +9,7 @@ import {
   Users,
   PackageSearch,
   CalendarRange,
+  Package,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     { href: "/dashboard/provider", label: "Overview", icon: LayoutDashboard },
     { href: "/dashboard/provider/gear/new", label: "Add Gear", icon: PlusCircle },
     { href: "/dashboard/provider/orders", label: "Orders", icon: ClipboardList },
+    { href: "/dashboard/provider/inventory", label: "My Gear", icon: Package },
   ],
   ADMIN: [
     { href: "/dashboard/admin", label: "Overview", icon: LayoutDashboard },
@@ -33,6 +35,8 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
 
 export function Sidebar({ role, name }: { role: Role; name: string }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   const items = NAV_BY_ROLE[role];
 
   return (
@@ -43,7 +47,9 @@ export function Sidebar({ role, name }: { role: Role; name: string }) {
       </div>
 
       {items.map((item) => {
-        const isActive = pathname === item.href.split("?")[0];
+        const [itemPath, itemQuery] = item.href.split("?");
+        const itemTab = itemQuery ? new URLSearchParams(itemQuery).get("tab") : null;
+        const isActive = pathname === itemPath && itemTab === currentTab;
         const Icon = item.icon;
         return (
           <Link

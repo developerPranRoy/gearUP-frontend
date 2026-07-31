@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -45,10 +45,23 @@ export function GearForm({
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "images" as never,
-  });
+  const { fields, append, remove } = {
+    fields: (form.watch("images") ?? [""]).map((value, index) => ({
+      id: `image-${index}`,
+      value,
+    })),
+    append: (value: string) => {
+      const current = form.getValues("images") ?? [];
+      form.setValue("images", [...current, value]);
+    },
+    remove: (index: number) => {
+      const current = form.getValues("images") ?? [];
+      form.setValue(
+        "images",
+        current.filter((_, i) => i !== index)
+      );
+    },
+  };
 
   const isSubmitting = form.formState.isSubmitting;
 
@@ -189,10 +202,10 @@ export function GearForm({
               <FormField
                 control={form.control}
                 name={`images.${index}`}
-                render={({ field }) => (
+                render={({ field: inputField }) => (
                   <FormItem className="flex-1">
                     <FormControl>
-                      <Input placeholder="https://..." {...field} />
+                      <Input placeholder="https://..." {...inputField} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

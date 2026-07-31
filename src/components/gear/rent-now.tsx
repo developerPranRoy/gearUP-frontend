@@ -116,6 +116,12 @@ export function RentNow({
         </div>
       )}
 
+      {startDate && endDate && days === 0 && (
+        <p className="text-xs text-destructive">
+          End date must be after start date — minimum rental is 1 day.
+        </p>
+      )}
+
       <Button
         className="w-full"
         size="lg"

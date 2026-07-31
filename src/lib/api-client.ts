@@ -20,12 +20,7 @@ type ApiFetchOptions = Omit<RequestInit, "body"> & {
   token?: string | null;
 };
 
-/**
- * Thin fetch wrapper around the GearUp Express API. Server Components / Route
- * Handlers pass `token` explicitly (read from the httpOnly cookie via
- * lib/auth.ts); Client Components pass it from wherever they hold the
- * in-memory session (see hooks/use-session.ts).
- */
+
 export async function apiFetch<T>(
   path: string,
   { body, token, headers, ...init }: ApiFetchOptions = {}

@@ -83,8 +83,10 @@ src/
       orders, review RETURNED gear) + Stripe Elements payment flow
 - [x] Provider dashboard — stats, inventory table (edit/delete/toggle
       availability), add/edit gear forms, incoming orders with status actions
-- [ ] Admin dashboard
-- [ ] Polish (loading/error states everywhere, `API_INTEGRATION.md`)
+- [x] Admin dashboard — platform stats, user management (search, paginate,
+      suspend/activate), read-only gear + rental moderation views
+- [x] Polish — dashboard-wide loading skeleton + error boundary,
+      `API_INTEGRATION.md`
 
 ## Backend dependency added this phase
 
@@ -126,7 +128,8 @@ can rent the same unit for overlapping date ranges as long as stock allows it.
 The frontend enforces what it can (no past dates, end date after start date)
 but can't prevent double-booked date ranges without a backend endpoint that
 returns booked date ranges per gear item. Worth a follow-up if you want this
-fully correct.
+fully correct — the provider's confirm step before payment is currently the
+only manual check against this.
 
 ## Notes
 

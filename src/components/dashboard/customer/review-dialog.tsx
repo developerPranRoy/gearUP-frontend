@@ -30,6 +30,7 @@ export function ReviewDialog({
   gearName: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const form = useForm<ReviewInput>({
     resolver: zodResolver(reviewSchema),
@@ -49,9 +50,19 @@ export function ReviewDialog({
       form.reset();
       setSelectedRating(0);
       setOpen(false);
+      setSubmitted(true);
     } catch (error) {
       handleFormError(error, form.setError);
     }
+  }
+
+  // Hide the button once the review is submitted in this session
+  if (submitted) {
+    return (
+      <span className="rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground">
+        Reviewed ✓
+      </span>
+    );
   }
 
   return (

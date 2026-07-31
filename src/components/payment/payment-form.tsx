@@ -23,6 +23,7 @@ export function PaymentForm({
 }) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,10 +46,24 @@ export function PaymentForm({
     return () => {
       cancelled = true;
     };
-  }, [orderId]);
+  }, [orderId, attempt]);
 
   if (error) {
-    return <p className="text-sm font-medium text-destructive">{error}</p>;
+    return (
+      <div className="space-y-3 text-center">
+        <p className="text-sm font-medium text-destructive">{error}</p>
+        <button
+          onClick={() => {
+            setError(null);
+            setClientSecret(null);
+            setAttempt((a) => a + 1);
+          }}
+          className="text-sm text-trail underline underline-offset-2 hover:opacity-80"
+        >
+          Try again
+        </button>
+      </div>
+    );
   }
 
   if (!clientSecret) {
