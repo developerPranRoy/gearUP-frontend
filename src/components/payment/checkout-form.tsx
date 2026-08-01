@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   PaymentElement,
   useStripe,
@@ -36,8 +37,6 @@ export function CheckoutForm({
       },
     });
 
-    // Stripe only returns here if confirmation failed immediately (e.g. a
-    // declined card). On success it redirects to return_url itself.
     if (error) {
       setErrorMessage(error.message ?? "Payment failed. Try a different card.");
       setSubmitting(false);
@@ -52,15 +51,20 @@ export function CheckoutForm({
         <p className="text-sm font-medium text-destructive">{errorMessage}</p>
       )}
 
-      <Button
-        type="submit"
-        size="lg"
-        className="w-full"
-        disabled={!stripe || submitting}
-      >
-        {submitting && <Loader2 className="animate-spin" />}
-        Pay ৳{amount.toLocaleString()}
-      </Button>
+      <div className="flex gap-3">
+        <Button
+          type="submit"
+          size="lg"
+          className="flex-1"
+          disabled={!stripe || submitting}
+        >
+          {submitting && <Loader2 className="animate-spin" />}
+          Pay ৳{amount.toLocaleString()}
+        </Button>
+        <Button asChild type="button" size="lg" variant="outline" disabled={submitting}>
+          <Link href="/payment/cancel">Cancel</Link>
+        </Button>
+      </div>
     </form>
   );
 }

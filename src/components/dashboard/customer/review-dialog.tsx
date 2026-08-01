@@ -56,7 +56,6 @@ export function ReviewDialog({
     }
   }
 
-  // Hide the button once the review is submitted in this session
   if (submitted) {
     return (
       <span className="rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground">
