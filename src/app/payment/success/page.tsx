@@ -15,6 +15,7 @@ function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const clientSecret = searchParams.get("payment_intent_client_secret");
   const orderId = searchParams.get("orderId");
+  console.log(clientSecret);
   const [status, setStatus] = useState<Status>(clientSecret ? "loading" : "failed");
 
   useEffect(() => {

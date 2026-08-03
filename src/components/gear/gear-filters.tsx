@@ -34,14 +34,12 @@ export function GearFilters({ categories }: { categories: Category[] }) {
         params.delete(key);
       }
     }
-    params.delete("page"); // any filter change resets pagination
-
+    params.delete("page");
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
     });
   }
 
-  // Debounce free-text inputs so we're not pushing a route on every keystroke.
   useEffect(() => {
     const handle = setTimeout(() => {
       if (searchTerm !== (searchParams.get("searchTerm") ?? "")) {
@@ -49,7 +47,6 @@ export function GearFilters({ categories }: { categories: Category[] }) {
       }
     }, 400);
     return () => clearTimeout(handle);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   useEffect(() => {
@@ -61,7 +58,6 @@ export function GearFilters({ categories }: { categories: Category[] }) {
       }
     }, 400);
     return () => clearTimeout(handle);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minPrice, maxPrice]);
 
   const activeCategory = searchParams.get("category") ?? "";

@@ -1,7 +1,10 @@
 # GearUp Frontend
 
 Next.js frontend for GearUp — rent sports & outdoor gear instantly. Consumes the
+
 [GearUp backend API](https://gearup-server-2.onrender.com).
+
+[GearUp Frontend Live](https://gearup-frontend-qi4y.onrender.com).
 
 ## Tech Stack
 
