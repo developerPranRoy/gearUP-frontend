@@ -4,27 +4,35 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Core palette — outdoor/gear identity: deep pine, trail green, blaze amber */
-  --pine: #16302a;
-  --pine-soft: #204339;
-  --trail: #2d5a45;
-  --trail-light: #3f7a5c;
-  --blaze: #f2a93b;
-  --blaze-dark: #d98f1f;
-  --stone: #f0f2ed;
+  /* ── Core palette ─────────────────────────────────────────────────── */
+  --pine: #0f2318;
+  --pine-soft: #1a3528;
+  --trail: #1e4d35;
+  --trail-light: #2d7050;
+  --blaze: #f59e0b;
+  --blaze-dark: #d97706;
+  --stone: #f4f6f0;
   --canvas: #ffffff;
-  --slate: #5b655f;
-  --slate-soft: #8a938c;
-  --line: #dcdfd7;
+  --slate: #4b5563;
+  --slate-soft: #9ca3af;
+  --line: #e5e7e0;
 
-  /* Status colors — mirrors backend RentalStatus enum */
-  --status-placed: #f2a93b;
-  --status-confirmed: #3b82c4;
-  --status-paid: #7c5cbf;
-  --status-picked-up: #2d5a45;
-  --status-returned: #8a8f87;
-  --status-cancelled: #c0432f;
+  /* ── Glass system ─────────────────────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 8px 32px rgba(15, 35, 24, 0.12);
+  --glass-blur: blur(16px);
 
+  /* ── Status palette ────────────────────────────────────────────────── */
+  --status-placed: #f59e0b;
+  --status-confirmed: #3b82f6;
+  --status-paid: #8b5cf6;
+  --status-picked-up: #10b981;
+  --status-returned: #6b7280;
+  --status-cancelled: #ef4444;
+
+  /* ── Shadcn token mapping ──────────────────────────────────────────── */
   --background: var(--stone);
   --foreground: var(--pine);
   --card: var(--canvas);
@@ -35,14 +43,14 @@
   --secondary-foreground: var(--pine);
   --accent: var(--blaze);
   --accent-foreground: var(--pine);
-  --muted: var(--stone);
+  --muted: #f0f2ec;
   --muted-foreground: var(--slate);
   --destructive: var(--status-cancelled);
   --destructive-foreground: #ffffff;
   --border: var(--line);
   --input: var(--line);
   --ring: var(--trail);
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -65,12 +73,15 @@
   --color-ring: var(--ring);
 
   --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
   --color-trail: var(--trail);
   --color-trail-light: var(--trail-light);
   --color-blaze: var(--blaze);
   --color-blaze-dark: var(--blaze-dark);
   --color-stone: var(--stone);
+  --color-canvas: var(--canvas);
   --color-slate: var(--slate);
+  --color-slate-soft: var(--slate-soft);
 
   --color-status-placed: var(--status-placed);
   --color-status-confirmed: var(--status-confirmed);
@@ -88,14 +99,94 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* ── Base ──────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  /* Subtle mesh gradient background for the whole app */
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(46, 112, 80, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(245, 158, 11, 0.06) 0%, transparent 60%);
+  background-attachment: fixed;
 }
 
-/* Visible keyboard focus everywhere — accessibility floor */
+/* ── Glass utility classes ─────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 24px rgba(15, 35, 24, 0.08), 0 1px 4px rgba(15, 35, 24, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.glass-card:hover {
+  box-shadow: 0 8px 40px rgba(15, 35, 24, 0.14), 0 2px 8px rgba(15, 35, 24, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ── Animations ────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+.animate-fade-up   { animation: fade-up  0.4s ease both; }
+.animate-fade-in   { animation: fade-in  0.3s ease both; }
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+
+/* Stagger children */
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger > *:nth-child(8) { animation-delay: 0.40s; }
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #e5e7e0 25%, #f0f2ec 50%, #e5e7e0 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: 0.5rem;
+}
+
+/* ── Accessibility ─────────────────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--trail);
   outline-offset: 2px;
+  border-radius: 4px;
 }

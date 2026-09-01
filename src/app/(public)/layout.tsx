@@ -5,8 +5,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">{children}</main>
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        GearUp — Rent Sports &amp; Outdoor Gear Instantly
+      <footer className="glass border-t border-white/60 py-8 text-center text-xs text-slate">
+        <p className="font-display text-sm font-medium text-pine">GearUp</p>
+        <p className="mt-1">Rent Sports &amp; Outdoor Gear Instantly</p>
       </footer>
     </div>
   );

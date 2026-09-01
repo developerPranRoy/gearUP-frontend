@@ -4,8 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LogOut, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
 import { bffFetch } from "@/lib/api-client";
 
 export function LogoutButton() {
@@ -25,15 +23,13 @@ export function LogoutButton() {
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
+    <button
       onClick={handleLogout}
       disabled={loading}
-      className="w-full justify-start gap-2 text-muted-foreground hover:text-destructive"
+      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-slate transition-all hover:bg-destructive/10 hover:text-destructive disabled:opacity-50"
     >
-      {loading ? <Loader2 className="animate-spin" /> : <LogOut />}
-      Log out
-    </Button>
+      {loading ? <Loader2 className="size-4 animate-spin" /> : <LogOut className="size-4" />}
+      Sign out
+    </button>
   );
 }

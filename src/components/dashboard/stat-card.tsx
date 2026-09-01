@@ -1,26 +1,30 @@
 import type { LucideIcon } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 
 export function StatCard({
   label,
   value,
   icon: Icon,
+  trend,
 }: {
   label: string;
   value: number | string;
   icon: LucideIcon;
+  trend?: string;
 }) {
   return (
-    <Card>
-      <CardContent className="flex items-center gap-4 py-5">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-trail/10">
+    <div className="glass-card animate-fade-up rounded-xl p-5">
+      <div className="flex items-start justify-between">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-trail/10">
           <Icon className="size-5 text-trail" />
         </div>
-        <div>
-          <p className="font-mono text-2xl font-semibold text-pine">{value}</p>
-          <p className="text-xs text-muted-foreground">{label}</p>
-        </div>
-      </CardContent>
-    </Card>
+        {trend && (
+          <span className="rounded-full bg-trail/10 px-2 py-0.5 text-xs font-medium text-trail">
+            {trend}
+          </span>
+        )}
+      </div>
+      <p className="mt-4 font-mono text-3xl font-bold text-pine">{value}</p>
+      <p className="mt-1 text-xs font-medium text-slate">{label}</p>
+    </div>
   );
 }

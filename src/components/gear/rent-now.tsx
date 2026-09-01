@@ -3,38 +3,27 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
-
+import { CalendarDays, Loader2, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authedFetch, ApiError } from "@/lib/api-client";
 import type { RentalOrder } from "@/types/api";
 
-function todayISO() {
-  return new Date().toISOString().split("T")[0];
-}
+const todayISO = () => new Date().toISOString().split("T")[0];
 
 export function RentNow({
-  gearItemId,
-  pricePerDay,
-  availableStock,
-}: {
-  gearItemId: string;
-  pricePerDay: number;
-  availableStock: number;
-}) {
+  gearItemId, pricePerDay, availableStock,
+}: { gearItemId: string; pricePerDay: number; availableStock: number }) {
   const router = useRouter();
   const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const [endDate,   setEndDate]   = useState("");
+  const [quantity,  setQuantity]  = useState(1);
   const [submitting, setSubmitting] = useState(false);
 
   const days = useMemo(() => {
     if (!startDate || !endDate) return 0;
-    const diff =
-      (new Date(endDate).getTime() - new Date(startDate).getTime()) /
-      (1000 * 60 * 60 * 24);
+    const diff = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 86400000;
     return diff > 0 ? Math.ceil(diff) : 0;
   }, [startDate, endDate]);
 
@@ -47,88 +36,68 @@ export function RentNow({
     try {
       await authedFetch<RentalOrder>("/rentals", {
         method: "POST",
-        body: {
-          startDate,
-          endDate,
-          items: [{ gearItemId, quantity }],
-        },
+        body: { startDate, endDate, items: [{ gearItemId, quantity }] },
       });
-      toast.success("Rental order placed — waiting on provider confirmation");
+      toast.success("Order placed — waiting for provider confirmation");
       router.push("/dashboard/customer");
-    } catch (error) {
-      if (error instanceof ApiError) {
-        toast.error(error.message);
-      } else {
-        toast.error("Couldn't place the order. Try again.");
-      }
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : "Couldn't place order. Try again.");
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="space-y-4 rounded-lg border border-border bg-canvas p-5">
+    <div className="glass-card rounded-xl p-5 space-y-4">
+      <div className="flex items-center gap-2 border-b border-white/40 pb-3">
+        <CalendarDays className="size-4 text-trail" />
+        <p className="text-sm font-semibold text-pine">Book this gear</p>
+      </div>
+
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label htmlFor="startDate">Start date</Label>
-          <Input
-            id="startDate"
-            type="date"
-            min={todayISO()}
-            value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-              if (endDate && e.target.value >= endDate) setEndDate("");
-            }}
+          <Label htmlFor="startDate" className="text-xs font-medium text-slate">Start date</Label>
+          <Input id="startDate" type="date" min={todayISO()} value={startDate}
+            onChange={(e) => { setStartDate(e.target.value); if (endDate && e.target.value >= endDate) setEndDate(""); }}
           />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="endDate">End date</Label>
-          <Input
-            id="endDate"
-            type="date"
-            min={startDate || todayISO()}
-            value={endDate}
-            disabled={!startDate}
-            onChange={(e) => setEndDate(e.target.value)}
+          <Label htmlFor="endDate" className="text-xs font-medium text-slate">End date</Label>
+          <Input id="endDate" type="date" min={startDate || todayISO()} value={endDate}
+            disabled={!startDate} onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="quantity">Quantity ({availableStock} available)</Label>
-        <Input
-          id="quantity"
-          type="number"
-          min={1}
-          max={availableStock}
-          value={quantity}
+        <Label htmlFor="qty" className="text-xs font-medium text-slate">
+          Quantity <span className="text-slate-soft">({availableStock} available)</span>
+        </Label>
+        <Input id="qty" type="number" min={1} max={availableStock} value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
         />
       </div>
 
-      {days > 0 && (
-        <div className="flex items-center justify-between border-t border-border pt-3 font-mono text-sm">
-          <span className="text-muted-foreground">
-            {days} {days === 1 ? "day" : "days"} × {quantity} × ৳{pricePerDay}
-          </span>
-          <span className="font-medium text-pine">৳{total.toLocaleString()}</span>
-        </div>
-      )}
-
       {startDate && endDate && days === 0 && (
-        <p className="text-xs text-destructive">
-          End date must be after start date — minimum rental is 1 day.
+        <p className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          End date must be after start date.
         </p>
       )}
 
-      <Button
-        className="w-full"
-        size="lg"
-        disabled={!canSubmit || submitting}
-        onClick={handleSubmit}
-      >
-        {submitting && <Loader2 className="animate-spin" />}
+      {days > 0 && (
+        <div className="rounded-xl bg-trail/5 px-4 py-3">
+          <div className="flex justify-between text-xs text-slate">
+            <span>{days} day{days > 1 ? "s" : ""} × {quantity} × ৳{pricePerDay.toLocaleString()}</span>
+          </div>
+          <div className="mt-1 flex justify-between">
+            <span className="text-sm font-semibold text-pine">Total</span>
+            <span className="font-mono text-sm font-bold text-trail">৳{total.toLocaleString()}</span>
+          </div>
+        </div>
+      )}
+
+      <Button className="w-full" size="lg" disabled={!canSubmit || submitting} onClick={handleSubmit}>
+        {submitting ? <Loader2 className="animate-spin" /> : <ShoppingCart className="size-4" />}
         Rent Now
       </Button>
     </div>
