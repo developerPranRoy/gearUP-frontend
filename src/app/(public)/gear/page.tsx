@@ -37,8 +37,10 @@ export default async function BrowseGearPage({
   };
 
   const [categories, gearResult] = await Promise.all([
-    apiFetch<Category[]>("/categories"),
-    apiFetchPaginated<GearItem[]>(`/gear?${toQueryString(params)}`),
+    apiFetch<Category[]>("/categories").catch(() => [] as Category[]),
+    apiFetchPaginated<GearItem[]>(`/gear?${toQueryString(params)}`).catch(
+      () => ({ data: [] as GearItem[], meta: undefined })
+    ),
   ]);
 
   const gear = gearResult.data;
