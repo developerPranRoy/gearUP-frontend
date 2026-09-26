@@ -37,11 +37,11 @@ export function Sidebar({ role, name }: { role: Role; name: string }) {
 
   return (
     <nav className="space-y-1">
-      {/* User badge — dark footer style */}
-      <div className="mb-4 rounded-xl border border-white/10 bg-white/8 px-3 py-3"
-        style={{ background: "rgba(255,255,255,0.06)" }}>
-        <p className="truncate text-sm font-semibold text-white">{name}</p>
-        <p className="mt-0.5 text-xs capitalize text-white/50">{role.toLowerCase()}</p>
+      {/* User badge — always dark surface */}
+      <div className="mb-4 rounded-xl px-3 py-3"
+        style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
+        <p className="truncate text-sm font-semibold" style={{ color: "var(--surface-dark-text)" }}>{name}</p>
+        <p className="mt-0.5 text-xs capitalize" style={{ color: "var(--surface-dark-muted)" }}>{role.toLowerCase()}</p>
       </div>
 
       {items.map((item) => {
@@ -57,9 +57,13 @@ export function Sidebar({ role, name }: { role: Role; name: string }) {
             className={cn(
               "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
               isActive
-                ? "bg-blaze text-pine shadow-md shadow-blaze/30"
-                : "text-white/60 hover:bg-white/8 hover:text-white"
+                ? "text-brand-dim shadow-md"
+                : "sidebar-nav-item"
             )}
+            style={isActive
+              ? { background: "var(--gold)", color: "var(--brand-dim)", boxShadow: "0 2px 8px rgba(245,158,11,0.25)" }
+              : { color: "var(--surface-dark-muted)" }
+            }
           >
             <Icon className="size-4 shrink-0" />
             {item.label}

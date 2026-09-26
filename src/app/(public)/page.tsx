@@ -22,26 +22,30 @@ export default async function HomePage() {
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section className="relative mx-auto max-w-6xl px-6 pb-16 pt-20 text-center">
         <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-trail/12 blur-3xl" />
-          <div className="absolute right-1/4 top-24 h-52 w-52 rounded-full bg-blaze/10 blur-3xl" />
+          <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(circle, rgba(30,77,53,0.12) 0%, transparent 70%)" }} />
+          <div className="absolute right-1/4 top-20 h-56 w-56 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)" }} />
         </div>
 
-        <p className="animate-fade-up mb-4 inline-block rounded-full border border-trail/30 bg-trail/10 px-4 py-1 font-mono text-xs uppercase tracking-widest text-trail backdrop-blur-sm dark:border-trail/20 dark:bg-trail/15">
+        {/* Badge */}
+        <p className="animate-fade-up mb-5 inline-flex items-center gap-1.5 rounded-full border px-4 py-1 font-mono text-xs uppercase tracking-widest"
+          style={{ borderColor: "rgba(30,77,53,0.25)", background: "rgba(30,77,53,0.06)", color: "var(--brand)" }}>
           Sports &amp; outdoor gear, on demand
         </p>
 
-        <h1 className="animate-fade-up animate-delay-100 font-display text-5xl font-semibold leading-[1.1] text-pine sm:text-6xl">
+        <h1 className="animate-fade-up animate-delay-100 font-display text-5xl font-semibold leading-[1.08] text-foreground sm:text-6xl">
           Rent the gear.
           <br />
-          <span className="text-trail">Skip the ownership.</span>
+          <span style={{ color: "var(--brand)" }}>Skip the ownership.</span>
         </h1>
 
-        <p className="animate-fade-up animate-delay-200 mx-auto mt-6 max-w-lg text-base text-slate">
+        <p className="animate-fade-up animate-delay-200 mx-auto mt-6 max-w-lg text-base text-muted-foreground">
           Bikes, tents, kayaks, and fitness equipment from local providers —
           book by the day, pick up nearby, return when you&apos;re done.
         </p>
 
-        <div className="animate-fade-up animate-delay-300 mt-8 flex items-center justify-center gap-4">
+        <div className="animate-fade-up animate-delay-300 mt-8 flex flex-wrap items-center justify-center gap-4">
           <Button asChild size="lg">
             <Link href="/gear">
               Browse all gear <ArrowRight className="size-4" />
@@ -53,21 +57,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Feature cards ─────────────────────────────────────────────── */}
+      {/* ── Feature cards — always use surface-dark (like footer/navbar) ── */}
       <section className="mx-auto max-w-4xl px-6 pb-16">
         <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="animate-fade-up relative overflow-hidden rounded-2xl border border-pine/10 bg-pine p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-trail-light/30 dark:border-trail/10 dark:bg-canvas"
-              style={{ boxShadow: "0 8px 32px rgba(15,35,24,0.20), inset 0 1px 0 rgba(255,255,255,0.06)" }}
+            <div key={title}
+              className="animate-fade-up group relative overflow-hidden rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1"
+              style={{
+                background: "var(--surface-dark)",
+                border: "1px solid var(--surface-dark-border)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.15)",
+              }}
             >
-              <div className="pointer-events-none absolute left-1/2 top-0 h-24 w-24 -translate-x-1/2 rounded-full bg-trail-light/20 blur-2xl" />
-              <div className="relative mx-auto mb-4 flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/10">
-                <Icon className="size-5 text-blaze" />
+              {/* Icon glow orb */}
+              <div className="pointer-events-none absolute left-1/2 top-0 h-20 w-20 -translate-x-1/2 rounded-full blur-2xl"
+                style={{ background: "rgba(30,77,53,0.25)" }} />
+
+              <div className="relative mx-auto mb-4 flex size-11 items-center justify-center rounded-xl"
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)" }}>
+                <Icon className="size-5" style={{ color: "var(--gold)" }} />
               </div>
-              <p className="relative font-semibold text-white">{title}</p>
-              <p className="relative mt-1.5 text-xs leading-relaxed text-white/55">{desc}</p>
+
+              <p className="relative text-sm font-semibold" style={{ color: "var(--surface-dark-text)" }}>{title}</p>
+              <p className="relative mt-1.5 text-xs leading-relaxed" style={{ color: "var(--surface-dark-muted)" }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -76,17 +88,14 @@ export default async function HomePage() {
       {/* ── Featured gear ─────────────────────────────────────────────── */}
       {featuredGear.length > 0 && (
         <section className="mx-auto max-w-6xl px-6 pb-24">
-          <div className="mb-8 flex items-end justify-between">
+          <div className="mb-8 flex items-center justify-between">
             <div>
-              <h2 className="font-display text-2xl font-semibold text-pine">
-                Recently listed
-              </h2>
-              <p className="mt-1 text-sm text-slate">Fresh gear from local providers</p>
+              <h2 className="font-display text-2xl font-semibold text-foreground">Recently listed</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Fresh gear from local providers</p>
             </div>
-            <Link
-              href="/gear"
-              className="flex items-center gap-1.5 rounded-full border border-trail/20 bg-trail/8 px-3 py-1.5 text-xs font-medium text-trail transition-all hover:border-trail/40 hover:bg-trail/15"
-            >
+            <Link href="/gear"
+              className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all hover:opacity-80"
+              style={{ borderColor: "rgba(30,77,53,0.30)", color: "var(--brand)", background: "rgba(30,77,53,0.06)" }}>
               View all <ArrowRight className="size-3" />
             </Link>
           </div>

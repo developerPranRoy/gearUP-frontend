@@ -30,7 +30,8 @@ export function GearCard({ gear }: { gear: GearItem }) {
           )}
           {/* Category pill overlay */}
           <div className="absolute left-3 top-3">
-            <span className="glass rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-pine">
+            <span className="glass rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+              style={{ color: "var(--surface-dark-text)" }}>
               {gear.category.name}
             </span>
           </div>
@@ -38,28 +39,29 @@ export function GearCard({ gear }: { gear: GearItem }) {
 
         {/* Body */}
         <div className="p-4">
-          <h3 className="line-clamp-1 font-display text-base font-semibold text-pine group-hover:text-trail transition-colors">
+          <h3 className="line-clamp-1 font-display text-base font-semibold text-foreground transition-colors group-hover:text-primary">
             {gear.name}
           </h3>
 
           <div className="mt-1 flex items-center justify-between">
             {gear.brand && (
-              <p className="text-xs text-slate-soft">{gear.brand}</p>
+              <p className="text-xs text-muted-foreground">{gear.brand}</p>
             )}
             {avgRating && (
-              <div className="flex items-center gap-0.5 text-xs text-slate-soft">
-                <Star className="size-3 fill-blaze text-blaze" />
+              <div className="flex items-center gap-0.5 text-xs text-muted-foreground">
+                <Star className="size-3" style={{ fill: "var(--gold)", color: "var(--gold)" }} />
                 {avgRating}
               </div>
             )}
           </div>
 
           <div className="mt-3 flex items-center justify-between">
-            <p className="font-mono text-sm font-semibold text-pine">
+            <p className="font-mono text-sm font-semibold text-foreground">
               ৳{gear.pricePerDay.toLocaleString()}
-              <span className="text-xs font-normal text-slate-soft">/day</span>
+              <span className="text-xs font-normal text-muted-foreground">/day</span>
             </p>
-            <span className="rounded-full bg-trail/10 px-2.5 py-0.5 text-xs font-medium text-trail">
+            <span className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+              style={{ background: "rgba(30,77,53,0.10)", color: "var(--brand)" }}>
               {gear.availableStock} left
             </span>
           </div>
