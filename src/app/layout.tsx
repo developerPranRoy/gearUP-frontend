@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { GoogleAuthProvider } from "@/components/providers/google-oauth-provider";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -38,7 +39,9 @@ export default function RootLayout({
       className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+        <GoogleAuthProvider>
+          {children}
+        </GoogleAuthProvider>
         <Toaster position="top-right" richColors closeButton />
       </body>
     </html>

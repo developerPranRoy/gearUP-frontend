@@ -16,6 +16,7 @@ import {
 import { bffFetch } from "@/lib/api-client";
 import { handleFormError } from "@/lib/handle-form-error";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
+import { GoogleLoginButton } from "@/components/auth/google-login-button";
 import type { SessionUser } from "@/types/api";
 
 function LoginForm() {
@@ -89,6 +90,21 @@ function LoginForm() {
           </Button>
         </form>
       </Form>
+
+      {/* Divider */}
+      <div className="relative my-5">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-white/60" />
+        </div>
+        <div className="relative flex justify-center text-xs">
+          <span className="bg-white/60 px-3 text-slate backdrop-blur-sm rounded-full">or</span>
+        </div>
+      </div>
+
+      {/* Google sign-in */}
+      <div className="flex justify-center">
+        <GoogleLoginButton text="signin_with" />
+      </div>
 
       <p className="mt-6 text-center text-sm text-slate">
         Don&apos;t have an account?{" "}

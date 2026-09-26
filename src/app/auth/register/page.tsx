@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { bffFetch } from "@/lib/api-client";
 import { handleFormError } from "@/lib/handle-form-error";
 import { registerSchema, type RegisterInput } from "@/lib/validations/auth";
+import { GoogleLoginButton } from "@/components/auth/google-login-button";
 
 const ROLE_OPTIONS = [
   {
@@ -160,6 +161,21 @@ function RegisterForm() {
           </Button>
         </form>
       </Form>
+
+      {/* Divider */}
+      <div className="relative my-5">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-white/60" />
+        </div>
+        <div className="relative flex justify-center text-xs">
+          <span className="bg-white/60 px-3 text-slate backdrop-blur-sm rounded-full">or</span>
+        </div>
+      </div>
+
+      {/* Google sign-up — creates a CUSTOMER account */}
+      <div className="flex justify-center">
+        <GoogleLoginButton text="signup_with" />
+      </div>
 
       <p className="mt-6 text-center text-sm text-slate">
         Already have an account?{" "}
