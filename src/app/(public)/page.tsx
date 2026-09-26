@@ -6,9 +6,9 @@ import { apiFetchPaginated } from "@/lib/api-client";
 import type { GearItem } from "@/types/api";
 
 const FEATURES = [
-  { icon: Zap,    title: "Book instantly",     desc: "Pick dates, confirm, done. No phone calls." },
-  { icon: MapPin, title: "Pick up locally",    desc: "Gear from providers near you." },
-  { icon: Shield, title: "Verified listings",  desc: "Every provider is reviewed and trusted." },
+  { icon: Zap,    title: "Book instantly",    desc: "Pick dates, confirm, done. No phone calls." },
+  { icon: MapPin, title: "Pick up locally",   desc: "Gear from providers near you." },
+  { icon: Shield, title: "Verified listings", desc: "Every provider is reviewed and trusted." },
 ];
 
 export default async function HomePage() {
@@ -26,7 +26,7 @@ export default async function HomePage() {
           <div className="absolute right-1/4 top-24 h-52 w-52 rounded-full bg-blaze/10 blur-3xl" />
         </div>
 
-        <p className="animate-fade-up mb-4 inline-block rounded-full border border-white/20 bg-white/10 px-4 py-1 font-mono text-xs uppercase tracking-widest text-trail backdrop-blur-sm">
+        <p className="animate-fade-up mb-4 inline-block rounded-full border border-trail/30 bg-trail/10 px-4 py-1 font-mono text-xs uppercase tracking-widest text-trail backdrop-blur-sm dark:border-trail/20 dark:bg-trail/15">
           Sports &amp; outdoor gear, on demand
         </p>
 
@@ -53,23 +53,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Feature cards — footer dark style ─────────────────────────── */}
+      {/* ── Feature cards ─────────────────────────────────────────────── */}
       <section className="mx-auto max-w-4xl px-6 pb-16">
         <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="animate-fade-up relative overflow-hidden rounded-2xl border border-white/10 p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
-              style={{
-                background: "linear-gradient(135deg, rgba(15,35,24,0.88) 0%, rgba(30,77,53,0.82) 100%)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                boxShadow: "0 8px 32px rgba(15,35,24,0.20), inset 0 1px 0 rgba(255,255,255,0.08)",
-              }}
+              className="animate-fade-up relative overflow-hidden rounded-2xl border border-pine/10 bg-pine p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-trail-light/30 dark:border-trail/10 dark:bg-canvas"
+              style={{ boxShadow: "0 8px 32px rgba(15,35,24,0.20), inset 0 1px 0 rgba(255,255,255,0.06)" }}
             >
-              {/* Glow orb behind icon */}
               <div className="pointer-events-none absolute left-1/2 top-0 h-24 w-24 -translate-x-1/2 rounded-full bg-trail-light/20 blur-2xl" />
-
               <div className="relative mx-auto mb-4 flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/10">
                 <Icon className="size-5 text-blaze" />
               </div>
@@ -83,7 +76,6 @@ export default async function HomePage() {
       {/* ── Featured gear ─────────────────────────────────────────────── */}
       {featuredGear.length > 0 && (
         <section className="mx-auto max-w-6xl px-6 pb-24">
-          {/* Section header — dark pill style */}
           <div className="mb-8 flex items-end justify-between">
             <div>
               <h2 className="font-display text-2xl font-semibold text-pine">
@@ -93,12 +85,11 @@ export default async function HomePage() {
             </div>
             <Link
               href="/gear"
-              className="flex items-center gap-1.5 rounded-full border border-trail/20 bg-trail/8 px-3 py-1.5 text-xs font-medium text-trail transition-all hover:bg-trail/15 hover:border-trail/40"
+              className="flex items-center gap-1.5 rounded-full border border-trail/20 bg-trail/8 px-3 py-1.5 text-xs font-medium text-trail transition-all hover:border-trail/40 hover:bg-trail/15"
             >
               View all <ArrowRight className="size-3" />
             </Link>
           </div>
-
           <div className="stagger grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredGear.map((gear) => (
               <GearCard key={gear.id} gear={gear} />

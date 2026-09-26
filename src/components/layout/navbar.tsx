@@ -3,6 +3,7 @@ import { getAccessToken, getCurrentUser } from "@/lib/auth";
 import { apiFetch } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 import { AccountMenu } from "@/components/layout/account-menu";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import type { User } from "@/types/api";
 
 /** GearUp mountain + gear SVG logo mark — white variant for dark nav */
@@ -82,12 +83,14 @@ export async function Navbar() {
         </nav>
 
         {/* ── Auth ──────────────────────────────────────────────────── */}
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end gap-2">
+          <ThemeToggle />
           {session && profile ? (
             <AccountMenu
               name={profile.name}
               email={profile.email}
               role={session.role}
+              avatarUrl={profile.avatarUrl ?? null}
             />
           ) : (
             <div className="flex items-center gap-3">
