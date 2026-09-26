@@ -30,17 +30,18 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
 };
 
 export function Sidebar({ role, name }: { role: Role; name: string }) {
-  const pathname  = usePathname();
+  const pathname     = usePathname();
   const searchParams = useSearchParams();
   const currentTab   = searchParams.get("tab");
   const items        = NAV_BY_ROLE[role];
 
   return (
     <nav className="space-y-1">
-      {/* User badge */}
-      <div className="mb-4 rounded-xl bg-trail/8 px-3 py-2.5">
-        <p className="truncate text-sm font-semibold text-pine">{name}</p>
-        <p className="text-xs capitalize text-slate">{role.toLowerCase()}</p>
+      {/* User badge — dark footer style */}
+      <div className="mb-4 rounded-xl border border-white/10 bg-white/8 px-3 py-3"
+        style={{ background: "rgba(255,255,255,0.06)" }}>
+        <p className="truncate text-sm font-semibold text-white">{name}</p>
+        <p className="mt-0.5 text-xs capitalize text-white/50">{role.toLowerCase()}</p>
       </div>
 
       {items.map((item) => {
@@ -56,8 +57,8 @@ export function Sidebar({ role, name }: { role: Role; name: string }) {
             className={cn(
               "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
               isActive
-                ? "bg-trail text-white shadow-md shadow-trail/20"
-                : "text-slate hover:bg-white/60 hover:text-pine"
+                ? "bg-blaze text-pine shadow-md shadow-blaze/30"
+                : "text-white/60 hover:bg-white/8 hover:text-white"
             )}
           >
             <Icon className="size-4 shrink-0" />

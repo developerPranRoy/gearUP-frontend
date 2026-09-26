@@ -18,11 +18,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex min-h-screen">
       {/* ── Sidebar ─────────────────────────────────────────────── */}
-      <aside className="glass-strong fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-white/60">
+      <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-white/10" style={{ background: "linear-gradient(180deg, rgba(15,35,24,0.95) 0%, rgba(26,53,40,0.95) 100%)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         {/* Brand */}
-        <div className="border-b border-white/40 px-5 py-4">
-          <p className="font-display text-lg font-bold text-pine">
-            Gear<span className="text-trail">Up</span>
+        <div className="border-b border-white/10 px-5 py-4">
+          <p className="font-display text-lg font-bold text-white">
+            Gear<span className="text-blaze">Up</span>
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
 
         {/* Logout */}
-        <div className="border-t border-white/40 p-3">
+        <div className="border-t border-white/10 p-3">
           <LogoutButton />
         </div>
       </aside>
