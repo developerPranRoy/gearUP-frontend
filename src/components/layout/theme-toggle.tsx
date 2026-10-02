@@ -33,7 +33,7 @@ export function ThemeToggle() {
         (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.60)";
       }}
     >
-      <Sun  className={`absolute size-4 transition-all duration-300 ${isDark  ? "opacity-0 scale-50 rotate-90"  : "opacity-100 scale-100 rotate-0"}`} />
+      <Sun className={`absolute size-4 transition-all duration-300 ${isDark ? "opacity-0 scale-50 rotate-90" : "opacity-100 scale-100 rotate-0"}`} />
       <Moon className={`absolute size-4 transition-all duration-300 ${!isDark ? "opacity-0 scale-50 -rotate-90" : "opacity-100 scale-100 rotate-0"}`} />
     </button>
   );
