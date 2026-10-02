@@ -46,14 +46,13 @@ function LoginForm() {
   }
 
   return (
-    <div className="glass-card animate-fade-up w-full max-w-md rounded-2xl p-8">
-      {/* Header */}
+    <div className="animate-fade-up w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm">
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-trail/10">
-          <LogIn className="size-5 text-trail" />
+        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl" style={{ background: "rgba(22,163,74,0.10)" }}>
+          <LogIn className="size-5" style={{ color: "var(--green)" }} />
         </div>
-        <h1 className="font-display text-2xl font-semibold text-pine">Welcome back</h1>
-        <p className="mt-1 text-sm text-slate">Sign in to your GearUp account</p>
+        <h1 className="font-display text-2xl font-semibold text-foreground">Welcome back</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Sign in to your GearUp account</p>
       </div>
 
       <Form {...form}>
@@ -63,7 +62,7 @@ function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-pine">Email</FormLabel>
+                <FormLabel className="text-foreground">Email</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="you@example.com" {...field} />
                 </FormControl>
@@ -76,7 +75,7 @@ function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-pine">Password</FormLabel>
+                <FormLabel className="text-foreground">Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="••••••••" {...field} />
                 </FormControl>
@@ -84,31 +83,35 @@ function LoginForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full font-semibold"
+            size="lg"
+            disabled={isSubmitting}
+            style={{ background: "var(--green)", color: "#fff" }}
+          >
             {isSubmitting ? <Loader2 className="animate-spin" /> : <LogIn className="size-4" />}
             Sign in
           </Button>
         </form>
       </Form>
 
-      {/* Divider */}
       <div className="relative my-5">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-white/60" />
+          <div className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white/60 px-3 text-slate backdrop-blur-sm rounded-full">or</span>
+          <span className="bg-card px-3 text-muted-foreground rounded-full">or</span>
         </div>
       </div>
 
-      {/* Google sign-in */}
       <div className="flex justify-center">
         <GoogleLoginButton text="signin_with" />
       </div>
 
-      <p className="mt-6 text-center text-sm text-slate">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
-        <Link href="/auth/register" className="font-semibold text-trail hover:underline">
+        <Link href="/auth/register" className="font-semibold hover:underline" style={{ color: "var(--green)" }}>
           Create one
         </Link>
       </p>

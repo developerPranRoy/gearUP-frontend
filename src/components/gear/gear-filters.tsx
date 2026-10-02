@@ -3,16 +3,21 @@
 import { useEffect, useState, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { Category } from "@/types/api";
 
 const SORT_OPTIONS = [
-  { value: "createdAt:desc", label: "Newest" },
-  { value: "pricePerDay:asc", label: "Price: Low to High" },
-  { value: "pricePerDay:desc", label: "Price: High to Low" },
+  { value: "createdAt:desc",    label: "Newest" },
+  { value: "pricePerDay:asc",   label: "Price: Low to High" },
+  { value: "pricePerDay:desc",  label: "Price: High to Low" },
 ];
+
+const selectClass = [
+  "h-10 rounded-lg border border-border bg-background px-3 text-sm text-foreground",
+  "focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring",
+  "transition-colors hover:border-ring/40",
+].join(" ");
 
 export function GearFilters({ categories }: { categories: Category[] }) {
   const router = useRouter();
@@ -21,23 +26,17 @@ export function GearFilters({ categories }: { categories: Category[] }) {
   const [isPending, startTransition] = useTransition();
 
   const [searchTerm, setSearchTerm] = useState(searchParams.get("searchTerm") ?? "");
-  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") ?? "");
-  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") ?? "");
+  const [minPrice,   setMinPrice]   = useState(searchParams.get("minPrice") ?? "");
+  const [maxPrice,   setMaxPrice]   = useState(searchParams.get("maxPrice") ?? "");
 
   function updateParams(updates: Record<string, string | null>) {
     const params = new URLSearchParams(searchParams.toString());
-
     for (const [key, value] of Object.entries(updates)) {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
+      if (value) params.set(key, value);
+      else params.delete(key);
     }
     params.delete("page");
-    startTransition(() => {
-      router.push(`${pathname}?${params.toString()}`);
-    });
+    startTransition(() => { router.push(`${pathname}?${params.toString()}`); });
   }
 
   useEffect(() => {
@@ -51,9 +50,9 @@ export function GearFilters({ categories }: { categories: Category[] }) {
 
   useEffect(() => {
     const handle = setTimeout(() => {
-      const currentMin = searchParams.get("minPrice") ?? "";
-      const currentMax = searchParams.get("maxPrice") ?? "";
-      if (minPrice !== currentMin || maxPrice !== currentMax) {
+      const curMin = searchParams.get("minPrice") ?? "";
+      const curMax = searchParams.get("maxPrice") ?? "";
+      if (minPrice !== curMin || maxPrice !== curMax) {
         updateParams({ minPrice: minPrice || null, maxPrice: maxPrice || null });
       }
     }, 400);
@@ -61,20 +60,13 @@ export function GearFilters({ categories }: { categories: Category[] }) {
   }, [minPrice, maxPrice]);
 
   const activeCategory = searchParams.get("category") ?? "";
-  const activeSort = `${searchParams.get("sortBy") ?? "createdAt"}:${
-    searchParams.get("sortOrder") ?? "desc"
-  }`;
-
-  const hasActiveFilters =
-    searchParams.get("searchTerm") ||
-    searchParams.get("category") ||
-    searchParams.get("minPrice") ||
-    searchParams.get("maxPrice");
+  const activeSort = `${searchParams.get("sortBy") ?? "createdAt"}:${searchParams.get("sortOrder") ?? "desc"}`;
+  const hasActiveFilters = searchParams.get("searchTerm") || searchParams.get("category") || searchParams.get("minPrice") || searchParams.get("maxPrice");
 
   return (
     <div className="flex flex-wrap items-center gap-3 border-b border-border pb-6">
       <div className="relative min-w-[220px] flex-1">
-        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-soft" />
+        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -86,13 +78,11 @@ export function GearFilters({ categories }: { categories: Category[] }) {
       <select
         value={activeCategory}
         onChange={(e) => updateParams({ category: e.target.value || null })}
-        className="h-10 rounded-md border border-input bg-canvas px-3 text-sm"
+        className={selectClass}
       >
         <option value="">All categories</option>
         {categories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.name}
-          </option>
+          <option key={c.id} value={c.id}>{c.name}</option>
         ))}
       </select>
 
@@ -119,12 +109,10 @@ export function GearFilters({ categories }: { categories: Category[] }) {
           const [sortBy, sortOrder] = e.target.value.split(":");
           updateParams({ sortBy, sortOrder });
         }}
-        className="h-10 rounded-md border border-input bg-canvas px-3 text-sm"
+        className={selectClass}
       >
         {SORT_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
         ))}
       </select>
 
@@ -139,13 +127,11 @@ export function GearFilters({ categories }: { categories: Category[] }) {
             router.push(pathname);
           }}
         >
-          <X /> Clear
+          <X className="size-4" /> Clear
         </Button>
       )}
 
-      {isPending && (
-        <span className="text-xs text-muted-foreground">Updating…</span>
-      )}
+      {isPending && <span className="text-xs text-muted-foreground">Updating…</span>}
     </div>
   );
 }
